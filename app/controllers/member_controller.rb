@@ -41,7 +41,25 @@ class MemberController < ApplicationController
   end
 
   get '/members/login' do
-    erb :'members/login'
+    if !is_logged_in?(session)
+      erb :'members/login'
+    else
+      # TODO: add message "you're already logged in!"
+      redirect "/deliveries"
+    end
+  end
+
+  post '/members/login' do
+    @member = Member.find_by(username: params[:username])
+
+    if @member && @member.authenticate(params[:password])
+      session[:user_id] = @member.id
+      session[:user_type] = "member"
+      redirect "/deliveries"
+    else
+      session[:message] = "Incorrect username or password. Please try again."
+      redirect "members/login"
+    end
   end
 
   get '/members/:username' do
