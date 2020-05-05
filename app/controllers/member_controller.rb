@@ -40,10 +40,14 @@ class MemberController < ApplicationController
     end
   end
 
-  get 'members/:username' do
-    @member = Member.find_by(username: params[:username])
-
-    erb :'members/show'
+  get '/members/:username' do
+    if is_logged_in?(session)
+      @member = Member.find_by(username: params[:username])
+      erb :'members/show'
+    else
+      session[:message] = "You must be logged in to view a member's profile. Please log in to continue."
+      redirect "/members/login"
+    end
   end
 
   # --- HELPER METHODS --- #
