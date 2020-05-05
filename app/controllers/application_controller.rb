@@ -10,7 +10,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    "Hello World!"
+    erb :welcome
+  end
+
+  get '/logout' do
+    session.clear
+    redirect "/"
   end
 
 end
