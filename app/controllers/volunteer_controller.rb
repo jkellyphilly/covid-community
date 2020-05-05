@@ -76,9 +76,15 @@ class VolunteerController < ApplicationController
 
   # Page for editing a volunteer's information
   get '/volunteers/:username/edit' do
-    if is_logged_in?(session)
+    if is_volunteer?(session)
       @volunteer = Volunteer.find_by(username: params[:username])
-      erb :'volunteers/edit'
+
+      if @volunteer.id == session[:user_id]
+        erb :'volunteers/edit'
+      else
+        session[:message] = "You can only edit your own profile."
+        redirect "/volunteers/#{@volunteer.username}"
+      end
     else
       session[:message] = "You must be logged in to view a volunteer's profile. Please log in to continue."
       redirect "/volunteers/login"
