@@ -40,6 +40,29 @@ class VolunteerController < ApplicationController
     end
   end
 
+  get '/volunteers/login' do
+    if !is_logged_in?(session)
+      erb :'volunteers/login'
+    else
+      # TODO: add message "you're already logged in!"
+      session[:message] = "You're already logged in - welcome again to the site!"
+      redirect "/deliveries"
+    end
+  end
+
+  post '/volunteers/login' do
+    @volunteer = Volunteer.find_by(username: params[:username])
+
+    if @volunteer && @volunteer.authenticate(params[:password])
+      session[:user_id] = @volunteer.id
+      session[:user_type] = "volunteer"
+      redirect "/deliveries"
+    else
+      session[:message] = "Incorrect username or password. Please try again."
+      redirect "volunteers/login"
+    end
+  end
+
   get '/volunteers/:username' do
     if is_logged_in?(session)
       @volunteer = Volunteer.find_by(username: params[:username])

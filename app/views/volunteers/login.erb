@@ -1,0 +1,14 @@
+<h1>Welcome and thank you, volunteer! Please log in.</h1>
+
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+<form action="/volunteers/login" method="post">
+  <label for="username">Username: </label>
+  <input type="text" name="username"><br>
+  <label for="password">Password: </label>
+  <%# TODO: Make the password field with hidden characters %>
+  <input type="text" name="password"><br><br>
+  <input type="submit" value="Log In">
+</form>
