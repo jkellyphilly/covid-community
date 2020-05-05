@@ -5,7 +5,7 @@ if ActiveRecord::Base.connection.migration_context.needs_migration?
 end
 
 use Rack::MethodOverride
-#use MemberController
-#use VolunteerController
-#use DeliveryController
+use MemberController
+use VolunteerController
+use DeliveryController
 run ApplicationController
