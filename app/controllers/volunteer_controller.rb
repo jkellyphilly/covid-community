@@ -40,6 +40,16 @@ class VolunteerController < ApplicationController
     end
   end
 
+  get '/volunteers/:username' do
+    if is_logged_in?(session)
+      @volunteer = Volunteer.find_by(username: params[:username])
+      erb :'volunteers/show'
+    else
+      session[:message] = "You must be logged in to view a volunteer's profile. Please log in to continue."
+      redirect "/volunteers/login"
+    end
+  end
+
   # --- HELPER METHODS --- #
 
   helpers do

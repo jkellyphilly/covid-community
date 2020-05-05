@@ -1,0 +1,20 @@
+<h1><%=@volunteer.name%></h1>
+<h4>Username: <%=@volunteer.username%></h4>
+
+<h2>Contact Info</h2>
+<ul>
+  <li>Phone number: <%=@volunteer.phone_number%></li>
+  <li>Email: <%=@volunteer.email%></li>
+</ul>
+
+<h2>Deliveries</h2>
+<ul>
+  <% @volunteer.deliveries.each do |delivery| %>
+    <li>For: <%= delivery.member.name %></li>
+    <li>Items: <%= delivery.items %></li>
+    <li>Requested date: <%= delivery.date %></li>
+  <% end %>
+</ul>
+<% if @volunteer.deliveries.size ==0 %>
+  <p>None at the moment.</p>
+<% end %>
