@@ -1,0 +1,9 @@
+<h1>Welcome to your community.</h1>
+
+<h3>Meet your community members:</h3>
+
+<ul>
+  <% @all_members.each do |member| %>
+    <li><a href="/member/<%=member.username%>"><%= member.name %></a></li>
+  <% end %>
+</ul>

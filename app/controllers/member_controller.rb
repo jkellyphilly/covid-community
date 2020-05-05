@@ -1,7 +1,12 @@
 class MemberController < ApplicationController
 
   get '/members' do
-    "Shows full list of members"
+    if is_logged_in?(session)
+      @all_members = Member.all
+      erb :'members/index'
+    else
+      redirect "/"
+    end
   end
 
   get '/members/signup' do
