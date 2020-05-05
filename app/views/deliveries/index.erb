@@ -5,6 +5,10 @@
   <% session.delete(:message) %>
 <% end %>
 
+<% if session[:user_type] == "member" %>
+  <p>Community members, create a new delivery request <a href="/deliveries/new">here</a>.</p>
+<% end %>
+
 <h2>See below for the delivery requests that need volunteers: </h2>
 
 <% if @new_requests.size == 0 %>
@@ -46,3 +50,6 @@
     <li>Volunteer who delivered: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
   <% end %>
 </ul>
+
+<br>
+<a href="/logout">Log Out</a>
