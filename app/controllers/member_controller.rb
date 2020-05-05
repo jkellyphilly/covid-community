@@ -34,6 +34,7 @@ class MemberController < ApplicationController
         redirect "/deliveries"
       else
         # TODO: add in flash message that all fields must be filled out correctly
+        session[:message] = "Error: all non-optional fields must be filled out in order to sign up. Please try again."
         redirect "/members/signup"
       end
     end
