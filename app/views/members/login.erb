@@ -1,0 +1,6 @@
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
+<h1>Log in to the community</h1>

@@ -40,6 +40,10 @@ class MemberController < ApplicationController
     end
   end
 
+  get '/members/login' do
+    erb :'members/login'
+  end
+
   get '/members/:username' do
     if is_logged_in?(session)
       @member = Member.find_by(username: params[:username])
