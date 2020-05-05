@@ -1,5 +1,10 @@
 <h1>Welcome to your community.</h1>
 
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
 <h3>Meet your community members:</h3>
 
 <ul>

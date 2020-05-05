@@ -73,6 +73,18 @@ class MemberController < ApplicationController
     end
   end
 
+  get '/members/:username/edit' do
+    @member = Member.find_by(username: params[:username])
+
+    if @member.id == session[:user_id] && is_member?(session)
+      erb :'members/edit'
+    else
+      session[:message] = "You cannot edit another member's profile."
+      redirect "/members"
+    end
+
+  end
+
   # --- HELPER METHODS --- #
 
   helpers do
@@ -83,6 +95,10 @@ class MemberController < ApplicationController
 
     def username_already_taken?(username)
       !!Member.find_by(username: username)
+    end
+
+    def is_member?(session)
+      session[:user_type] == "member" && is_logged_in?(session)
     end
 
   end

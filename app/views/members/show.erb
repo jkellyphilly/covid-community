@@ -8,3 +8,10 @@
   <li>Phone number: <%=@member.phone_number%></li>
   <li>Allergies: <%=@member.allergies%></li>
 </ul>
+<br>
+<% if @member.id == session[:user_id] && is_member?(session) %>
+  <p><a href="/members/<%=@member.username%>/edit">Edit your profile</a></p>
+<% end %>
+
+<br>
+<p><a href="/logout">Log out</a></p>
