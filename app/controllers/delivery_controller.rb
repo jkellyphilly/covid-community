@@ -12,8 +12,23 @@ class DeliveryController < ApplicationController
   end
 
   get '/deliveries/new' do
-    if session[:user_type] == "member"
+    if is_member?(session)
       erb :'deliveries/new'
+    else
+      session[:message] = "You must be logged in as a community member to create a new delivery request."
+      redirect "/deliveries"
+    end
+  end
+
+  post '/deliveries' do
+    # TODO: guard against blank delivery requests
+    if is_member?(session)
+      @delivery = Delivery.new(params)
+      @delivery.member = Member.find(session[:user_id])
+      @delivery.status = "new"
+      @delivery.save
+
+      redirect "/deliveries"
     else
       session[:message] = "You must be logged in as a community member to create a new delivery request."
       redirect "/deliveries"
@@ -26,6 +41,10 @@ class DeliveryController < ApplicationController
 
     def is_logged_in?(session)
       !!session[:user_id]
+    end
+
+    def is_member?(session)
+      session[:user_type] == "member" && is_logged_in?(session)
     end
 
   end
