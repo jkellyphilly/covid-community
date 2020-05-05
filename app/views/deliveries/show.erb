@@ -1,0 +1,8 @@
+<h1>Delivery <%=@delivery.id%></h1>
+
+<p>Delivery for: <a href="/members/<%=@delivery.member.username%>"><%=@delivery.member.name%></a></p>
+<p>Requested items: <%=@delivery.items%></p>
+<p>Date to be delivered: <%=@delivery.date%></p>
+<% if is_volunteer?(session) && @delivery.status == "new"%>
+  <li><a href="/deliveries/<%=@delivery.id%>/edit">Help out</a></li>
+<% end %>

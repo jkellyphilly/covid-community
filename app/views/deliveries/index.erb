@@ -17,9 +17,13 @@
 
 <ul>
   <% @new_requests.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%=delivery.id%></a></li>
     <li>Delivery for: <a href="/members/<%=delivery.member.username%>"><%=delivery.member.name%></a></li>
     <li>Requested items: <%=delivery.items%></li>
     <li>Date to be delivered: <%=delivery.date%></li>
+    <% if is_volunteer?(session) %>
+      <li><a href="/deliveries/<%=delivery.id%>/edit">Help out</a></li>
+    <% end %>
     <br>
   <% end %>
 </ul>
