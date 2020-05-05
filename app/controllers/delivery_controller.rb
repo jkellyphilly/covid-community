@@ -1,7 +1,7 @@
 class DeliveryController < ApplicationController
 
   get '/deliveries' do
-    "Shows all deliveries"
+    erb :'deliveries/index'
   end
 
 end

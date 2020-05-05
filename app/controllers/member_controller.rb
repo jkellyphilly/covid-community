@@ -45,6 +45,7 @@ class MemberController < ApplicationController
       erb :'members/login'
     else
       # TODO: add message "you're already logged in!"
+      session[:message] = "You're already logged in as a #{session[:user_type]}."
       redirect "/deliveries"
     end
   end

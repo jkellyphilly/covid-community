@@ -1,0 +1,12 @@
+<h1>Welcome to the CoVID-19 Community Food Bank.</h1>
+
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
+<h2>See below for the delivery requests that need volunteers: </h2>
+
+<h2>Delivery requests that have been confirmed: </h2>
+
+<h3>Previous delivery requests that have been completed:</h3>
