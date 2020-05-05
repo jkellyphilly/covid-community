@@ -5,7 +5,9 @@ class MemberController < ApplicationController
       @all_members = Member.all
       erb :'members/index'
     else
-      redirect "/"
+      # TODO: add flash message that you're not logged in
+      # customize to members
+      redirect "/members/login"
     end
   end
 
@@ -19,25 +21,40 @@ class MemberController < ApplicationController
   end
 
   post '/members/signup' do
-    @member = Member.new(params[:member])
-
-    if @member.save
-      session[:user_type] = "member"
-      session[:user_id] = @member.id
-      redirect "/deliveries"
-    else
-      # TODO: add in flash message that all fields must be filled out correctly
+    if username_already_taken?(params[:member][:username])
+      # TODO: add flash message that this username is already taken
+      session[:message] = "The username you entered is already being used by another member in our database. Please enter a new username."
       redirect "/members/signup"
+    else
+      @member = Member.new(params[:member])
+
+      if @member.save
+        session[:user_type] = "member"
+        session[:user_id] = @member.id
+        redirect "/deliveries"
+      else
+        # TODO: add in flash message that all fields must be filled out correctly
+        redirect "/members/signup"
+      end
     end
   end
 
+  get 'members/:username' do
+    @member = Member.find_by(username: params[:username])
 
-  # --- HELPER METHODS ---
+    erb :'members/show'
+  end
+
+  # --- HELPER METHODS --- #
 
   helpers do
 
     def is_logged_in?(session)
       !!session[:user_id]
+    end
+
+    def username_already_taken?(username)
+      !!Member.find_by(username: username)
     end
 
   end

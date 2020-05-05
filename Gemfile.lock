@@ -45,6 +45,8 @@ GEM
       method_source (~> 1.0)
     public_suffix (4.0.4)
     rack (2.2.2)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
@@ -111,6 +113,7 @@ DEPENDENCIES
   capybara
   database_cleaner
   pry
+  rack-flash3
   rack-test
   rake
   require_all
