@@ -1,4 +1,10 @@
 <h1><%=@member.name%></h1>
+
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
 <h4>Username: <%=@member.username%></h4>
 
 <h2>Contact Info</h2>

@@ -80,9 +80,28 @@ class MemberController < ApplicationController
       erb :'members/edit'
     else
       session[:message] = "You cannot edit another member's profile."
-      redirect "/members"
+      redirect "/members/#{params[:username]}"
     end
+  end
 
+  post '/members/:username' do
+    @member = Member.find_by(username: params[:username])
+
+    if username_already_taken?(params[:member][:username]) && session[:user_id] != Member.find_by(username: params[:member][:username]).id
+      # TODO: add flash message that this username is already taken
+      session[:message] = "The username you entered is already being used by another member in our database. Please edit with a different username."
+      redirect "/members/#{params[:username]}/edit"
+    else
+      @member.update(params[:member])
+
+      if @member.save
+        redirect "/members/#{@member.username}"
+      else
+        # TODO: add in flash message that all fields must be filled out correctly
+        session[:message] = "Error: all non-optional fields must be filled out in order to edit. Please try again."
+        redirect "/members/#{@member.username}/edit"
+      end
+    end
   end
 
   # --- HELPER METHODS --- #

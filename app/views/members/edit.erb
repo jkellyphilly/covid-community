@@ -1,0 +1,23 @@
+<h1><%=@member.name%></h1>
+<h4>Username: <%=@member.username%></h4>
+
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
+<form action="/members/<%=@member.username%>" method="post">
+  <label for="member[name]">Updated name: </label>
+  <input type="text" name="member[name]" value="<%=@member.name%>"><br>
+  <label for="member[username]">Updated username: </label>
+  <input type="text" name="member[username]" value="<%=@member.username%>"><br>
+  <label for="member[address]">Updated address: </label>
+  <input type="text" name="member[address]" value="<%=@member.address%>"><br>
+  <label for="member[email]">Updated email: </label>
+  <input type="text" name="member[email]" value="<%=@member.email%>"><br>
+  <label for="member[phone_number]">Updated phone number: </label>
+  <input type="text" name="member[phone_number]" value="<%=@member.phone_number%>"><br>
+  <label for="member[allergies]">Updated allergies: </label>
+  <input type="text" name="member[allergies]" value="<%=@member.allergies%>"><br>
+  <input type="submit" value="Submit">
+</form>
