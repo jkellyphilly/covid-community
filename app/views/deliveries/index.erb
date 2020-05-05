@@ -7,6 +7,42 @@
 
 <h2>See below for the delivery requests that need volunteers: </h2>
 
+<% if @new_requests.size == 0 %>
+  <p>No new requests that need volunteers to sign up at the moment!</p>
+<% end %>
+
+<ul>
+  <% @new_requests.each do |delivery| %>
+    <li>Delivery for: <a href="/members/<%=delivery.member.username%>"><%=delivery.member.name%></a></li>
+    <li>Requested items: <%=delivery.items%></li>
+    <li>Date to be delivered: <%=delivery.date%></li>
+    <br>
+  <% end %>
+</ul>
+
 <h2>Delivery requests that have been confirmed: </h2>
 
+<% if @confirmed_requests.size == 0 %>
+  <p>At this moment, all confirmed deliveries have been completed!</p>
+<% end %>
+
+<ul>
+  <% @confirmed_requests.each do |delivery| %>
+    <li>Delivery for: <a href="/members/<%=delivery.member.username%>"><%=delivery.member.name%></a></li>
+    <li>Requested items: <%=delivery.items%></li>
+    <li>Date to be delivered: <%=delivery.date%></li>
+    <li>Volunteer who is delivering: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
+    <br>
+  <% end %>
+</ul>
+
 <h3>Previous delivery requests that have been completed:</h3>
+
+<ul>
+  <% @completed_requests.each do |delivery| %>
+    <li>Delivery for: <a href="/members/<%=delivery.member.username%>"><%=delivery.member.name%></a></li>
+    <li>Requested items: <%=delivery.items%></li>
+    <li>Date to be delivered: <%=delivery.date%></li>
+    <li>Volunteer who delivered: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
+  <% end %>
+</ul>
