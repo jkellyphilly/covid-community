@@ -63,6 +63,7 @@ class VolunteerController < ApplicationController
     end
   end
 
+  # View a volunteer's profile page
   get '/volunteers/:username' do
     if is_logged_in?(session)
       @volunteer = Volunteer.find_by(username: params[:username])
@@ -72,6 +73,19 @@ class VolunteerController < ApplicationController
       redirect "/volunteers/login"
     end
   end
+
+  # Page for editing a volunteer's information
+  get '/volunteers/:username/edit' do
+    if is_logged_in?(session)
+      @volunteer = Volunteer.find_by(username: params[:username])
+      erb :'volunteers/edit'
+    else
+      session[:message] = "You must be logged in to view a volunteer's profile. Please log in to continue."
+      redirect "/volunteers/login"
+    end
+  end
+
+  #patch '/volunteers/:username'
 
   # --- HELPER METHODS --- #
 
@@ -83,6 +97,10 @@ class VolunteerController < ApplicationController
 
     def username_already_taken?(username)
       !!Volunteer.find_by(username: username)
+    end
+
+    def is_volunteer?(session)
+      session[:user_type] == "volunteer" && is_logged_in?(session)
     end
 
   end

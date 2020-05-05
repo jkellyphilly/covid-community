@@ -18,3 +18,7 @@
 <% if @volunteer.deliveries.size ==0 %>
   <p>None at the moment.</p>
 <% end %>
+
+<% if @volunteer.id == session[:user_id] && is_volunteer?(session) %>
+  <p><a href="/volunteers/<%=@volunteer.id%>/edit">Edit your profile</a></p>
+<% end %>

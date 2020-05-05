@@ -1,0 +1,21 @@
+<h1><%=@volunteer.name%></h1>
+<h4>Username: <%=@volunteer.username%></h4>
+
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
+<form action="/volunteers/<%=@volunteer.username%>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <label for="volunteer[name]">Updated name: </label>
+  <input type="text" name="volunteer[name]" value="<%=@volunteer.name%>"><br>
+  <label for="volunteer[username]">Updated username: </label>
+  <input type="text" name="volunteer[username]" value="<%=@volunteer.username%>"><br>
+  <label for="volunteer[email]">Updated email: </label>
+  <input type="text" name="volunteer[email]" value="<%=@volunteer.email%>"><br>
+  <label for="volunteer[phone_number]">Updated phone number: </label>
+  <input type="text" name="volunteer[phone_number]" value="<%=@volunteer.phone_number%>"><br>
+  <%# TODO: add in a way to edit the password %>
+  <input type="submit" value="Submit">
+</form>
