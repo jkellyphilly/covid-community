@@ -17,7 +17,7 @@
 <h3>Confirmed Deliveries</h3>
 <ul>
   <% @volunteer.confirmed_deliveries.each do |delivery| %>
-    <li>For: <a href="/members<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
+    <li>For: <a href="/members/<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
     <li>Items: <%= delivery.items %></li>
     <li>Requested date: <%= delivery.date %></li><br>
   <% end %>
@@ -29,7 +29,7 @@
 <h3>Completed Deliveries</h3>
 <ul>
   <% @volunteer.completed_deliveries.each do |delivery| %>
-    <li>For: <%= delivery.member.name %></li>
+    <li>For: <a href="/members/<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
     <li>Items: <%= delivery.items %></li>
     <li>Date delivered: <%= delivery.date %></li>
   <% end %>
