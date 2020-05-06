@@ -36,6 +36,7 @@
 
 <ul>
   <% @confirmed_requests.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%=delivery.id%></a></li>
     <li>Delivery for: <a href="/members/<%=delivery.member.username%>"><%=delivery.member.name%></a></li>
     <li>Requested items: <%=delivery.items%></li>
     <li>Date to be delivered: <%=delivery.date%></li>

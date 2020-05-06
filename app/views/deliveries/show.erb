@@ -3,6 +3,6 @@
 <p>Delivery for: <a href="/members/<%=@delivery.member.username%>"><%=@delivery.member.name%></a></p>
 <p>Requested items: <%=@delivery.items%></p>
 <p>Date to be delivered: <%=@delivery.date%></p>
-<% if is_volunteer?(session) && @delivery.status == "new"%>
-  <li><a href="/deliveries/<%=@delivery.id%>/edit">Help out</a></li>
+<% if (is_volunteer?(session) && session[:user_id] == @delivery.volunteer_id) || @delivery.status == "new"%>
+  <p><a href="/deliveries/<%=@delivery.id%>/volunteer">Edit the status of this delivery</a></p>
 <% end %>

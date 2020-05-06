@@ -78,6 +78,10 @@ class DeliveryController < ApplicationController
         @delivery.status = "confirmed"
         @volunteer.deliveries << @delivery
         @volunteer.save
+      when "completed"
+        @delivery.update(status: "completed")
+      when "new"
+        @delivery.update(status: "new", volunteer_id: nil)
       else
         session[:message] = "Internal error occurred - the status message was outside of the expected range for deliveries."
       end
