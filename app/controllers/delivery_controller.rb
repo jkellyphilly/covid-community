@@ -107,12 +107,16 @@ class DeliveryController < ApplicationController
       end
     elsif is_member?(session)
       @member = Member.find(session[:user_id])
-      @delivery.update(items: params[:items], date: params[:date])
+      if @delivery.update(items: params[:items], date: params[:date])
+        redirect "/deliveries"
+      else
+        session[:message] = "Error while editing - you cannot leave any fields blank"
+        redirect "/deliveries/#{@delivery.id}/edit"
+      end
     else
       session[:message] = "Internal error occurred."
+      redirect "/deliveries"
     end
-
-    redirect "/deliveries"
   end
 
   delete '/deliveries/:id' do
