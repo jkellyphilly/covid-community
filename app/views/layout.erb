@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Covid Community</title>
+</head>
+  <body>
+    <% if session[:message] %>
+      <%= session[:message] %><br><br>
+      <% session.delete(:message) %>
+    <% end %>
+
+    <%= yield %>
+
+    <% if is_logged_in?(session) %>
+      <br><br>
+      <a href="/deliveries">Home</a>
+      <a href="/logout">Log Out</a>
+    <% end %>
+  </body>
+</html>

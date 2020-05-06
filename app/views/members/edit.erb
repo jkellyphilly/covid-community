@@ -1,11 +1,6 @@
 <h1><%=@member.name%></h1>
 <h4>Username: <%=@member.username%></h4>
 
-<% if session[:message] %>
-  <%= session[:message] %><br><br>
-  <% session.delete(:message) %>
-<% end %>
-
 <form action="/members/<%=@member.username%>" method="post">
   <label for="member[name]">Updated name: </label>
   <input type="text" name="member[name]" value="<%=@member.name%>"><br>

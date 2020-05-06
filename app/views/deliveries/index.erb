@@ -1,10 +1,5 @@
 <h1>Welcome to the CoVID-19 Community Food Bank.</h1>
 
-<% if session[:message] %>
-  <%= session[:message] %><br><br>
-  <% session.delete(:message) %>
-<% end %>
-
 <% if session[:user_type] == "member" %>
   <p>Community members, create a new delivery request <a href="/deliveries/new">here</a>.</p>
 <% end %>
@@ -58,6 +53,3 @@
     <li>Volunteer who delivered: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
   <% end %>
 </ul>
-
-<br>
-<a href="/logout">Log Out</a>

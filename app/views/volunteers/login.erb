@@ -1,9 +1,5 @@
 <h1>Welcome and thank you, volunteer! Please log in.</h1>
 
-<% if session[:message] %>
-  <%= session[:message] %><br><br>
-  <% session.delete(:message) %>
-<% end %>
 <form action="/volunteers/login" method="post">
   <label for="username">Username: </label>
   <input type="text" name="username"><br>

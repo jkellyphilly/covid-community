@@ -1,10 +1,5 @@
 <h1>Delivery <%=@delivery.id%></h1>
 
-<% if session[:message] %>
-  <%= session[:message] %><br><br>
-  <% session.delete(:message) %>
-<% end %>
-
 <p>Delivery for: <a href="/members/<%=@delivery.member.username%>"><%=@delivery.member.name%></a></p>
 
 <form action="/deliveries/<%=@delivery.id%>" method="post">

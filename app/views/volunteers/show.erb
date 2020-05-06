@@ -1,11 +1,6 @@
 <h1><%=@volunteer.name%></h1>
 <h4>Username: <%=@volunteer.username%></h4>
 
-<% if session[:message] %>
-  <%= session[:message] %><br><br>
-  <% session.delete(:message) %>
-<% end %>
-
 <h2>Contact Info</h2>
 <ul>
   <li>Phone number: <%=@volunteer.phone_number%></li>
