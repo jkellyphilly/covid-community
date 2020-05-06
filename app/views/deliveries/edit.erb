@@ -1,0 +1,14 @@
+<h1>Delivery <%=@delivery.id%></h1>
+
+<p>Delivery for: <a href="/members/<%=@delivery.member.username%>"><%=@delivery.member.name%></a></p>
+
+<form action="/deliveries/<%=@delivery.id%>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <h2>Edit my items: </h2>
+  <label for="items">Enter updated items: </label>
+  <input type="text" name="items" value="<%=@delivery.items%>"><br>
+  <label for="date">Enter an updated date: </label>
+  <input type="text" name="date" value="<%=@delivery.date%>">
+  <br><br>
+  <input type="submit" value="Submit">
+ </form>

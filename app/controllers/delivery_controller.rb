@@ -70,10 +70,17 @@ class DeliveryController < ApplicationController
   end
 
   get '/deliveries/:id/edit' do
+    # TODO: if a delivery has been completed, can't be edited
+
     @delivery = Delivery.find(params[:id])
 
     if is_member?(session) && @delivery.member_id == session[:user_id]
-      "Gonna edit this here delivery."
+      if @delivery.status == "new"
+        erb :'deliveries/edit'
+      else
+        session[:message] = "We're sorry, but this delivery has already been confirmed by a volunteer and cannot be edited. Please contact the volunteer listed below if you need to make changes."
+        redirect "/deliveries/#{@delivery.id}"
+      end
     else
       session[:message] = "You must be logged in with a member account that owns this delivery request to edit details of the delivery."
       redirect "/deliveries/#{@delivery.id}"
@@ -98,7 +105,7 @@ class DeliveryController < ApplicationController
       end
     elsif is_member?(session)
       @member = Member.find(session[:user_id])
-      "I'm a patched member."
+      @delivery.update(items: params[:items], date: params[:date])
     else
       session[:message] = "Internal error occurred."
     end
