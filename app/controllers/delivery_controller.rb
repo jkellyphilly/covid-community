@@ -53,20 +53,42 @@ class DeliveryController < ApplicationController
     end
   end
 
-  get '/deliveries/:id/edit' do
-    if is_logged_in?(session)
+  get '/deliveries/:id/volunteer' do
+    if is_volunteer?(session)
       @delivery = Delivery.find(params[:id])
 
-      if @delivery.member_id == session[:user_id] && is_member?(session) || @delivery.volunteer_id == session[:user_id] && is_volunteer?(session)
-        erb :'deliveries/edit'
+      if (@delivery.status == "new" && !@delivery.volunteer) || (@delivery.volunteer_id == session[:user_id])
+        erb :'deliveries/volunteer'
       else
         session[:message] = "You can only edit a delivery where you are either the member or volunteer."
         redirect "/deliveries/#{params[:id]}"
       end
     else
-      session[:message] = "You must be logged in to edit delivery details."
-      redirect "/"
+      session[:message] = "You must be logged in with a volunteer account to sign up for making this delivery."
+      redirect "/deliveries/#{params[:id]}"
     end
+  end
+
+  patch '/deliveries/:id' do
+    @delivery = Delivery.find(params[:id])
+    if is_volunteer?(session)
+      @volunteer = Volunteer.find(session[:user_id])
+      case params[:status]
+      when "confirmed"
+        @delivery.status = "confirmed"
+        @volunteer.deliveries << @delivery
+        @volunteer.save
+      else
+        session[:message] = "Internal error occurred - the status message was outside of the expected range for deliveries."
+      end
+    elsif is_member?(session)
+      @member = Member.find(session[:user_id])
+      "I'm a patched member."
+    else
+      session[:message] = "Internal error occurred."
+    end
+
+    redirect "/deliveries"
   end
 
   # --- HELPER METHODS --- #
