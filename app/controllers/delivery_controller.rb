@@ -113,6 +113,13 @@ class DeliveryController < ApplicationController
     redirect "/deliveries"
   end
 
+  delete '/deliveries/:id' do
+    @delivery = Delivery.find(params[:id])
+    @delivery.destroy if (is_member?(session) && @delivery.member_id == session[:user_id])
+
+    redirect "/deliveries"
+  end
+
   # --- HELPER METHODS --- #
 
   helpers do

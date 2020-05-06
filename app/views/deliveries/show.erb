@@ -1,5 +1,10 @@
 <h1>Delivery <%=@delivery.id%></h1>
 
+<% if session[:message] %>
+  <%= session[:message] %><br><br>
+  <% session.delete(:message) %>
+<% end %>
+
 <p>Delivery for: <a href="/members/<%=@delivery.member.username%>"><%=@delivery.member.name%></a></p>
 <p>Requested items: <%=@delivery.items%></p>
 <p>Date to be delivered: <%=@delivery.date%></p>
@@ -14,4 +19,9 @@
 
 <% if is_member?(session) && session[:user_id] == @delivery.member_id%>
   <p><a href="/deliveries/<%=@delivery.id%>/edit">Edit your requested delivery</a></p>
+
+  <form action="/deliveries/<%=@delivery.id%>" method="post" >
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete this request">
+  </form>
 <% end %>
