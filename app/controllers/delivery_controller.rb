@@ -21,14 +21,16 @@ class DeliveryController < ApplicationController
   end
 
   post '/deliveries' do
-    # TODO: guard against blank delivery requests
     if is_member?(session)
       @delivery = Delivery.new(params)
       @delivery.member = Member.find(session[:user_id])
       @delivery.status = "new"
-      @delivery.save
-
-      redirect "/deliveries"
+      if @delivery.save
+        redirect "/deliveries"
+      else
+        session[:message] = "Error: all fields must be completed in order to make a new delivery request."
+        redirect "/deliveries/new"
+      end
     else
       session[:message] = "You must be logged in as a community member to create a new delivery request."
       redirect "/deliveries"
