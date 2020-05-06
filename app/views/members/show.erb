@@ -15,6 +15,43 @@
   <li>Allergies: <%=@member.allergies%></li>
 </ul>
 <br>
+
+<h2>Deliveries</h2>
+<h3>Upcoming</h3>
+<ul>
+  <% @member.confirmed_deliveries.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%= delivery.id %></a></li>
+    <li>Volunteer: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
+    <li>Date: <%=delivery.date%></li><br>
+  <% end %>
+</ul>
+<% if @member.confirmed_deliveries.size == 0 %>
+  <p>None for now.</p>
+<% end %>
+
+<h3>Unconfirmed</h3>
+<ul>
+  <% @member.new_deliveries.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%= delivery.id %></a></li>
+    <li><a href="/deliveries/<%=delivery.id%>/edit">Edit this delivery</a></li>
+  <% end %>
+</ul>
+<% if @member.new_deliveries.size == 0 %>
+  <p>None for now.</p>
+<% end %>
+
+<h3>Past deliveries</h3>
+<ul>
+  <% @member.completed_deliveries.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%= delivery.id %></a></li>
+    <li>Volunteer: <a href="/volunteers/<%=delivery.volunteer.username%>"><%=delivery.volunteer.name%></a></li>
+    <li>Completed on: <%=delivery.date%></li><br>
+  <% end %>
+</ul>
+<% if @member.completed_deliveries.size == 0 %>
+  <p>None for now.</p>
+<% end %>
+
 <% if @member.id == session[:user_id] && is_member?(session) %>
   <p><a href="/members/<%=@member.username%>/edit">Edit your profile</a></p>
 <% end %>
