@@ -23,7 +23,7 @@ class VolunteerController < ApplicationController
   post '/volunteers/signup' do
     if username_already_taken?(params[:volunteer][:username])
       # TODO: add flash message that this username is already taken
-      session[:message] = "The username you entered is already being used by another volunteer in our database. Please enter a new username."
+      session[:message] = "The username you entered is already being used by another volunteer in our database. Please use a different username."
       redirect "/volunteers/signup"
     else
       @volunteer = Volunteer.new(params[:volunteer])
@@ -96,7 +96,7 @@ class VolunteerController < ApplicationController
     @volunteer = Volunteer.find_by(username: params[:username])
 
     # Check to ensure that the new password is a new one
-    if username_already_taken?(params[:volunteer][:username])
+    if username_already_taken?(params[:volunteer][:username]) && session[:user_id] != @volunteer.id
       session[:message] = "Sorry, the username you entered is already taken. Please edit with a different username."
     else
       @volunteer.update(params[:volunteer])

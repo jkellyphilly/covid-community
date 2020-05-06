@@ -18,10 +18,13 @@
 <% end %>
 
 <% if is_member?(session) && session[:user_id] == @delivery.member_id%>
+
   <p><a href="/deliveries/<%=@delivery.id%>/edit">Edit your requested delivery</a></p>
 
-  <form action="/deliveries/<%=@delivery.id%>" method="post" >
-    <input id="hidden" type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete this request">
-  </form>
+  <% if @delivery.status != "completed" %>
+    <form action="/deliveries/<%=@delivery.id%>" method="post" >
+      <input id="hidden" type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete this request">
+    </form>
+  <% end %>
 <% end %>
