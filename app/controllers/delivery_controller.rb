@@ -69,6 +69,17 @@ class DeliveryController < ApplicationController
     end
   end
 
+  get '/deliveries/:id/edit' do
+    @delivery = Delivery.find(params[:id])
+
+    if is_member?(session) && @delivery.member_id == session[:user_id]
+      "Gonna edit this here delivery."
+    else
+      session[:message] = "You must be logged in with a member account that owns this delivery request to edit details of the delivery."
+      redirect "/deliveries/#{@delivery.id}"
+    end
+  end
+
   patch '/deliveries/:id' do
     @delivery = Delivery.find(params[:id])
     if is_volunteer?(session)

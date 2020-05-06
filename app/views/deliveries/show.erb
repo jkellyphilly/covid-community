@@ -5,9 +5,13 @@
 <p>Date to be delivered: <%=@delivery.date%></p>
 
 <% if @delivery.volunteer %>
-  <p>Volunteer: <a href="/volunteer/<%=@delivery.volunteer.username%>"><%= @delivery.volunteer.name %></a></p> 
+  <p>Volunteer: <a href="/volunteer/<%=@delivery.volunteer.username%>"><%= @delivery.volunteer.name %></a></p>
 <% end %>
 
-<% if (is_volunteer?(session) && session[:user_id] == @delivery.volunteer_id) || @delivery.status == "new"%>
+<% if is_volunteer?(session) && (session[:user_id] == @delivery.volunteer_id || @delivery.status == "new")%>
   <p><a href="/deliveries/<%=@delivery.id%>/volunteer">Edit the status of this delivery</a></p>
+<% end %>
+
+<% if is_member?(session) && session[:user_id] == @delivery.member_id%>
+  <p><a href="/deliveries/<%=@delivery.id%>/edit">Edit your requested delivery</a></p>
 <% end %>
