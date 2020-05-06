@@ -85,6 +85,7 @@ class MemberController < ApplicationController
   end
 
   post '/members/:username' do
+    # TODO: change this to a PATCH request
     @member = Member.find_by(username: params[:username])
 
     if username_already_taken?(params[:member][:username]) && session[:user_id] != Member.find_by(username: params[:member][:username]).id

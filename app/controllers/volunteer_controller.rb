@@ -91,7 +91,14 @@ class VolunteerController < ApplicationController
     end
   end
 
-  #patch '/volunteers/:username'
+  patch '/volunteers/:username' do
+    @volunteer = Volunteer.find_by(username: params[:username])
+    @volunteer.update(params[:volunteer])
+
+    # TODO: check out to see if filling in blank-ly is allowed
+    # TODO: only allow volunteers to update their username to one that is not yet taken
+    redirect "/volunteers/#{@volunteer.username}"
+  end
 
   # --- HELPER METHODS --- #
 

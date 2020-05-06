@@ -13,16 +13,32 @@
 </ul>
 
 <h2>Deliveries</h2>
+
+<h3>Confirmed Deliveries</h3>
 <ul>
-  <% @volunteer.deliveries.each do |delivery| %>
-    <li>For: <%= delivery.member.name %></li>
+  <% @volunteer.confirmed_deliveries.each do |delivery| %>
+    <li>For: <a href="/members<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
     <li>Items: <%= delivery.items %></li>
-    <li>Requested date: <%= delivery.date %></li>
+    <li>Requested date: <%= delivery.date %></li><br>
   <% end %>
 </ul>
-<% if @volunteer.deliveries.size ==0 %>
+<% if @volunteer.confirmed_deliveries.size ==0 %>
   <p>None at the moment.</p>
 <% end %>
+
+<h3>Completed Deliveries</h3>
+<ul>
+  <% @volunteer.completed_deliveries.each do |delivery| %>
+    <li>For: <%= delivery.member.name %></li>
+    <li>Items: <%= delivery.items %></li>
+    <li>Date delivered: <%= delivery.date %></li>
+  <% end %>
+</ul>
+<% if @volunteer.completed_deliveries.size ==0 %>
+  <p>None at the moment.</p>
+<% end %>
+
+# TODO: Link to the deliveries page in order for the volunteer to check out more openings.
 
 <% if @volunteer.id == session[:user_id] && is_volunteer?(session) %>
   <p><a href="/volunteers/<%=@volunteer.username%>/edit">Edit your profile</a></p>

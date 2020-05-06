@@ -8,4 +8,12 @@ class Volunteer < ActiveRecord::Base
   validates :name, presence: true
   validates :email, presence: true
   validates :phone_number, presence: true
+
+  def confirmed_deliveries
+    self.deliveries.select {|delivery| delivery.status == "confirmed"}
+  end
+
+  def completed_deliveries
+    self.deliveries.select {|delivery| delivery.status == "completed"}
+  end
 end
