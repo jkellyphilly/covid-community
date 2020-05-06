@@ -75,6 +75,7 @@ class VolunteerController < ApplicationController
   end
 
   # Page for editing a volunteer's information
+  # TODO: clean up this logic
   get '/volunteers/:username/edit' do
     if is_volunteer?(session)
       @volunteer = Volunteer.find_by(username: params[:username])
@@ -86,14 +87,20 @@ class VolunteerController < ApplicationController
         redirect "/volunteers/#{@volunteer.username}"
       end
     else
-      session[:message] = "You must be logged in to view a volunteer's profile. Please log in to continue."
-      redirect "/volunteers/login"
+      session[:message] = "You can only edit your own volunteer profile."
+      redirect "/volunteers"
     end
   end
 
   patch '/volunteers/:username' do
     @volunteer = Volunteer.find_by(username: params[:username])
-    @volunteer.update(params[:volunteer])
+
+    # Check to ensure that the new password is a new one
+    if username_already_taken?(params[:volunteer][:username])
+      session[:message] = "Sorry, the username you entered is already taken. Please edit with a different username."
+    else
+      @volunteer.update(params[:volunteer])
+    end
 
     # TODO: check out to see if filling in blank-ly is allowed
     # TODO: only allow volunteers to update their username to one that is not yet taken
