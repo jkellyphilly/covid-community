@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Covid Community</title>
+  <title>CoVID Community Food Bank</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
 </head>
   <body>
-    <% if session[:message] %>
-      <div class="status_message" style="text-align:center;">
-        <%= session[:message] %><br><br>
-        <% session.delete(:message) %>
-      </div>
-    <% end %>
-
     <% if is_logged_in?(session) %>
       <div class="logged_in_header" style="text-align:right;">
         <a href="/deliveries">Home</a>
@@ -21,6 +14,15 @@
           <a href="/volunteers/<%=Volunteer.find(session[:user_id]).username%>">Profile</a>
         <% end %>
         <a href="/logout">Log Out</a>
+      </div>
+    <% end %>
+
+    <% if session[:message] %>
+      <div class="status_message" style="text-align:center;">
+        <br>
+        <%= session[:message] %>
+        <br><br>
+        <% session.delete(:message) %>
       </div>
     <% end %>
 
