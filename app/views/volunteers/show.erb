@@ -6,12 +6,13 @@
   <li>Phone number: <%=@volunteer.phone_number%></li>
   <li>Email: <%=@volunteer.email%></li>
 </ul>
-<br>
+
 <h2> My Deliveries</h2>
 
-<h3>Confirmed Deliveries</h3>
+<h3>Confirmed Deliveries (<%=@volunteer.confirmed_deliveries.size%>)</h3>
 <ul>
   <% @volunteer.confirmed_deliveries.each do |delivery| %>
+    <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%=delivery.id%></a></li>
     <li>For: <a href="/members/<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
     <li>Items: <%= delivery.items %></li>
     <li>Requested date: <%= delivery.date %></li><br>
@@ -21,7 +22,7 @@
   <p>None at the moment.</p>
 <% end %>
 
-<h3>Completed Deliveries</h3>
+<h3>Completed Deliveries (<%=@volunteer.completed_deliveries.size%>)</h3>
 <ul>
   <% @volunteer.completed_deliveries.each do |delivery| %>
     <li>For: <a href="/members/<%=delivery.member.username%>"><%= delivery.member.name %></a></li>

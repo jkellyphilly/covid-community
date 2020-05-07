@@ -79,7 +79,7 @@ class DeliveryController < ApplicationController
       if @delivery.status == "new"
         erb :'deliveries/edit'
       else
-        session[:message] = "We're sorry, but this delivery has already been #{@delivery.status} by a volunteer and cannot be edited. Please contact the volunteer listed below if you need to make changes."
+        session[:message] = "We're sorry, but this delivery has already been #{@delivery.status} by #{@delivery.volunteer.name} and cannot be edited. Please contact your volunteer if you need to make changes."
         redirect "/deliveries/#{@delivery.id}"
       end
     else
@@ -105,11 +105,11 @@ class DeliveryController < ApplicationController
         session[:message] = "Delivery \##{@delivery.id} updated as completed."
       when "new"
         @delivery.update(status: "new", volunteer_id: nil)
-        session[:message] = "Delivery \##{@delivery.id} moved to new status."
+        session[:message] = "Delivery \##{@delivery.id} moved to new status and removed from your profile."
       else
         session[:message] = "Internal error occurred - the status message was outside of the expected range for deliveries."
       end
-      
+
       redirect "/deliveries"
 
     elsif is_member?(session)
