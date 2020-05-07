@@ -72,8 +72,6 @@ class DeliveryController < ApplicationController
   end
 
   get '/deliveries/:id/edit' do
-    # TODO: if a delivery has been completed, can't be edited
-
     @delivery = Delivery.find(params[:id])
 
     if is_member?(session) && @delivery.member_id == session[:user_id]

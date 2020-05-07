@@ -5,8 +5,7 @@ class MemberController < ApplicationController
       @all_members = Member.all
       erb :'members/index'
     else
-      # TODO: add flash message that you're not logged in
-      # customize to members
+      session[:message] = "You're not logged in - log in here as a member or go to /volunteers/login to log in as a Volunteer!"
       redirect "/members/login"
     end
   end
@@ -15,14 +14,13 @@ class MemberController < ApplicationController
     if !is_logged_in?(session)
       erb :'members/signup'
     else
-      # TODO: add flash message that you're already logged in
+      session[:message] = "You're already logged in - please log out first if you'd like to sign up with a different account."
       redirect "/deliveries"
     end
   end
 
   post '/members/signup' do
     if username_already_taken?(params[:member][:username])
-      # TODO: add flash message that this username is already taken
       session[:message] = "The username you entered is already being used by another member in our database. Please enter a new username."
       redirect "/members/signup"
     else
@@ -33,7 +31,6 @@ class MemberController < ApplicationController
         session[:user_id] = @member.id
         redirect "/deliveries"
       else
-        # TODO: add in flash message that all fields must be filled out correctly
         session[:message] = "Error: all non-optional fields must be filled out in order to sign up. Please try again."
         redirect "/members/signup"
       end
@@ -44,8 +41,7 @@ class MemberController < ApplicationController
     if !is_logged_in?(session)
       erb :'members/login'
     else
-      # TODO: add message "you're already logged in!"
-      session[:message] = "You're already logged in as a #{session[:user_type]}."
+      session[:message] = "You're already logged in as a #{session[:user_type]}. Please log out if you wish to log in to a different account."
       redirect "/deliveries"
     end
   end
@@ -89,7 +85,6 @@ class MemberController < ApplicationController
     @member = Member.find_by(username: params[:username])
 
     if username_already_taken?(params[:member][:username]) && session[:user_id] != Member.find_by(username: params[:member][:username]).id
-      # TODO: add flash message that this username is already taken
       session[:message] = "The username you entered is already being used by another member in our database. Please edit with a different username."
       redirect "/members/#{params[:username]}/edit"
     else
@@ -98,7 +93,6 @@ class MemberController < ApplicationController
       if @member.save
         redirect "/members/#{@member.username}"
       else
-        # TODO: add in flash message that all fields must be filled out correctly
         session[:message] = "Error: all non-optional fields must be filled out in order to edit. Please try again."
         redirect "/members/#{@member.username}/edit"
       end
