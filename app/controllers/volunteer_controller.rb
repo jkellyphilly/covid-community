@@ -91,15 +91,14 @@ class VolunteerController < ApplicationController
   patch '/volunteers/:username' do
     @volunteer = Volunteer.find_by(username: params[:username])
 
-    # Check to ensure that the new password is a new one
-    if username_already_taken?(params[:volunteer][:username]) && session[:user_id] != @volunteer.id
+    if username_already_taken?(params[:volunteer][:username]) && session[:user_id] != Volunteer.find_by(username: params[:volunteer][:username]).id
       session[:message] = "Sorry, the username you entered is already taken. Please edit with a different username."
+    elsif @volunteer.update(params[:volunteer])
+      session[:message] = "Successfully updated profile"
     else
-      @volunteer.update(params[:volunteer])
+      session[:message] = "Error: all fields must be filled out in order to update your profile. Please try again."
     end
 
-    # TODO: check out to see if filling in blank-ly is allowed
-    # TODO: only allow volunteers to update their username to one that is not yet taken
     redirect "/volunteers/#{@volunteer.username}"
   end
 
