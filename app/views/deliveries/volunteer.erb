@@ -12,7 +12,8 @@
     <input type="radio" name="status" value="new"> I can no longer complete this delivery - please mark as "new"<br>
     <input type="radio" name="status" value="completed"> I have completed this delivery - please mark as "completed"<br>
   <% elsif @delivery.status == "completed" %>
-    <p>Completed!</p>
+    <input type="radio" name="status" value="new"> I can no longer complete this delivery - please mark as "new"<br>
+    <input type="radio" name="status" value="confirmed"> I am still completing this delivery, but it is not delivered yet - please mark as "confirmed"<br>
   <% else %>
     <input type="radio" name="status" value="confirmed"> Sign me up for this delivery!
   <% end %>
