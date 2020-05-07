@@ -13,6 +13,8 @@
         <% else %>
           <a href="/volunteers/<%=Volunteer.find(session[:user_id]).username%>">Profile</a>
         <% end %>
+        <a href="/members">Members</a>
+        <a href="/volunteers">Volunteers</a>
         <a href="/logout">Log Out</a>
       </div>
     <% end %>
