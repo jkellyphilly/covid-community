@@ -90,25 +90,28 @@ class DeliveryController < ApplicationController
 
   patch '/deliveries/:id' do
     @delivery = Delivery.find(params[:id])
+
     if is_volunteer?(session)
       @volunteer = Volunteer.find(session[:user_id])
+
       case params[:status]
       when "confirmed"
         @delivery.status = "confirmed"
         @volunteer.deliveries << @delivery
         @volunteer.save
-        session[:message] = "You've confirmed this delivery - please remember to contact #{@delivery.member.name} on #{@delivery.date}!"
+        session[:message] = "You've confirmed delivery \##{@delivery.id} - please remember to contact #{@delivery.member.name} on #{@delivery.date}!"
       when "completed"
         @delivery.update(status: "completed")
-        session[:message] = "Delivery updated as completed."
+        session[:message] = "Delivery \##{@delivery.id} updated as completed."
       when "new"
         @delivery.update(status: "new", volunteer_id: nil)
-        session[:message] = "Delivery moved to new status."
+        session[:message] = "Delivery \##{@delivery.id} moved to new status."
       else
         session[:message] = "Internal error occurred - the status message was outside of the expected range for deliveries."
       end
-
+      
       redirect "/deliveries"
+
     elsif is_member?(session)
       @member = Member.find(session[:user_id])
       if @delivery.update(items: params[:items], date: params[:date])
@@ -118,6 +121,7 @@ class DeliveryController < ApplicationController
         session[:message] = "Error while editing - you cannot leave any fields blank"
         redirect "/deliveries/#{@delivery.id}/edit"
       end
+
     else
       session[:message] = "Internal error occurred."
       redirect "/deliveries"
