@@ -5,8 +5,7 @@ class VolunteerController < ApplicationController
       @all_volunteers = Volunteer.all
       erb :'volunteers/index'
     else
-      # TODO: add flash message that you're not logged in
-      # customize to members
+      session[:message] = "You're not logged in - log in here as a volunteer to see the community."
       redirect "/volunteers/login"
     end
   end
@@ -15,14 +14,13 @@ class VolunteerController < ApplicationController
     if !is_logged_in?(session)
       erb :'volunteers/signup'
     else
-      # TODO: add flash message that you're already logged in
+      session[:message] = "You're already logged in as a #{session[:user_type]}. If you'd like to sign up with a new account, please log out first."
       redirect "/deliveries"
     end
   end
 
   post '/volunteers/signup' do
     if username_already_taken?(params[:volunteer][:username])
-      # TODO: add flash message that this username is already taken
       session[:message] = "The username you entered is already being used by another volunteer in our database. Please use a different username."
       redirect "/volunteers/signup"
     else
@@ -33,7 +31,6 @@ class VolunteerController < ApplicationController
         session[:user_id] = @volunteer.id
         redirect "/deliveries"
       else
-        # TODO: add in flash message that all fields must be filled out correctly
         session[:message] = "Error: all fields must be filled out in order to sign up. Please try again."
         redirect "/volunteers/signup"
       end
@@ -44,8 +41,7 @@ class VolunteerController < ApplicationController
     if !is_logged_in?(session)
       erb :'volunteers/login'
     else
-      # TODO: add message "you're already logged in!"
-      session[:message] = "You're already logged in - welcome again to the site!"
+      session[:message] = "You're already logged in - if you'd like to log in to a different account, please log out first."
       redirect "/deliveries"
     end
   end
