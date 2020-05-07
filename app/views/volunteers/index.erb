@@ -1,9 +1,10 @@
 <h1>Welcome to the community.</h1>
 <%# TODO: Make sure the headline above matches across all pages %>
-<h3>Meet the volunteer community:</h3>
+<h3>Meet the volunteers:</h3>
 
 <ul>
   <% @all_volunteers.each do |volunteer| %>
     <li><a href="/volunteers/<%=volunteer.username%>"><%= volunteer.name %></a></li>
+    <li>Phone number: <%=volunteer.phone_number%></li><br>
   <% end %>
 </ul>

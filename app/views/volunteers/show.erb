@@ -26,7 +26,7 @@
   <% @volunteer.completed_deliveries.each do |delivery| %>
     <li>For: <a href="/members/<%=delivery.member.username%>"><%= delivery.member.name %></a></li>
     <li>Items: <%= delivery.items %></li>
-    <li>Date delivered: <%= delivery.date %></li>
+    <li>Date delivered: <%= delivery.date %></li><br>
   <% end %>
 </ul>
 <% if @volunteer.completed_deliveries.size ==0 %>
