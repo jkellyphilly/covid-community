@@ -6,21 +6,24 @@
 </head>
   <body>
     <% if session[:message] %>
-      <%= session[:message] %><br><br>
-      <% session.delete(:message) %>
+      <div class="status_message" style="text-align:center;">
+        <%= session[:message] %><br><br>
+        <% session.delete(:message) %>
+      </div>
+    <% end %>
+
+    <% if is_logged_in?(session) %>
+      <div class="logged_in_header" style="text-align:right;">
+        <a href="/deliveries">Home</a>
+        <% if is_member?(session) %>
+          <a href="/members/<%=Member.find(session[:user_id]).username%>">Profile</a>
+        <% else %>
+          <a href="/volunteers/<%=Volunteer.find(session[:user_id]).username%>">Profile</a>
+        <% end %>
+        <a href="/logout">Log Out</a>
+      </div>
     <% end %>
 
     <%= yield %>
-
-    <% if is_logged_in?(session) %>
-      <br><br>
-      <a href="/deliveries">Home</a>
-      <% if is_member?(session) %>
-        <a href="/members/<%=Member.find(session[:user_id]).username%>">Profile</a>
-      <% else %>
-        <a href="/volunteers/<%=Volunteer.find(session[:user_id]).username%>">Profile</a>
-      <% end %>
-      <a href="/logout">Log Out</a>
-    <% end %>
   </body>
 </html>
