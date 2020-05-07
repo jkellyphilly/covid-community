@@ -29,6 +29,7 @@ class MemberController < ApplicationController
       if @member.save
         session[:user_type] = "member"
         session[:user_id] = @member.id
+        session[:message] = "Successfully created member profile - welcome, #{@member.name}!"
         redirect "/deliveries"
       else
         session[:message] = "Error: all non-optional fields must be filled out in order to sign up. Please try again."
@@ -86,15 +87,12 @@ class MemberController < ApplicationController
     if username_already_taken?(params[:member][:username]) && session[:user_id] != Member.find_by(username: params[:member][:username]).id
       session[:message] = "The username you entered is already being used by another member in our database. Please edit with a different username."
       redirect "/members/#{params[:username]}/edit"
+    elsif @member.update(params[:member])
+      session[:message] = "Successfully updated member profile"
+      redirect "/members/#{@member.username}"
     else
-      @member.update(params[:member])
-
-      if @member.save
-        redirect "/members/#{@member.username}"
-      else
-        session[:message] = "Error: all non-optional fields must be filled out in order to edit. Please try again."
-        redirect "/members/#{@member.username}/edit"
-      end
+      session[:message] = "Error: all non-optional fields must be filled out in order to edit. Please try again."
+      redirect "/members/#{@member.username}/edit"
     end
   end
 

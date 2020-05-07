@@ -28,7 +28,8 @@
 <ul>
   <% @member.new_deliveries.each do |delivery| %>
     <li><a href="/deliveries/<%=delivery.id%>">Delivery #<%= delivery.id %></a></li>
-    <li><a href="/deliveries/<%=delivery.id%>/edit">Edit this delivery</a></li>
+    <li>Date: <%=delivery.date%></li>
+    <li><a href="/deliveries/<%=delivery.id%>/edit">Edit this delivery</a></li><br>
   <% end %>
 </ul>
 <% if @member.new_deliveries.size == 0 %>
