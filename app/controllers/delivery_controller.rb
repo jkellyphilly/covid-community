@@ -26,6 +26,7 @@ class DeliveryController < ApplicationController
       @delivery.member = Member.find(session[:user_id])
       @delivery.status = "new"
       if @delivery.save
+        session[:message] = "Successfully created new delivery request."
         redirect "/deliveries"
       else
         session[:message] = "Error: all fields must be completed in order to make a new delivery request."
@@ -96,17 +97,22 @@ class DeliveryController < ApplicationController
         @delivery.status = "confirmed"
         @volunteer.deliveries << @delivery
         @volunteer.save
+        session[:message] = "You've confirmed this delivery - please remember to contact #{@delivery.member.name} on #{@delivery.date}!"
       when "completed"
         @delivery.update(status: "completed")
+        session[:message] = "Delivery updated as completed."
       when "new"
         @delivery.update(status: "new", volunteer_id: nil)
+        session[:message] = "Delivery moved to new status."
       else
         session[:message] = "Internal error occurred - the status message was outside of the expected range for deliveries."
       end
+
       redirect "/deliveries"
     elsif is_member?(session)
       @member = Member.find(session[:user_id])
       if @delivery.update(items: params[:items], date: params[:date])
+        session[:message] = "Successfully updated delivery request."
         redirect "/deliveries"
       else
         session[:message] = "Error while editing - you cannot leave any fields blank"
@@ -122,6 +128,7 @@ class DeliveryController < ApplicationController
     @delivery = Delivery.find(params[:id])
     @delivery.destroy if (is_member?(session) && @delivery.member_id == session[:user_id])
 
+    session[:message] = "Delivery request removed."
     redirect "/deliveries"
   end
 
