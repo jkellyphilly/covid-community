@@ -119,6 +119,10 @@ class VolunteerController < ApplicationController
       !!Volunteer.find_by(username: username)
     end
 
+    def is_member?(session)
+      session[:user_type] == "member" && is_logged_in?(session)
+    end
+
     def is_volunteer?(session)
       session[:user_type] == "volunteer" && is_logged_in?(session)
     end

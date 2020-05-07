@@ -33,8 +33,6 @@
   <p>None at the moment.</p>
 <% end %>
 
-# TODO: Link to the deliveries page in order for the volunteer to check out more openings.
-
 <% if @volunteer.id == session[:user_id] && is_volunteer?(session) %>
   <p><a href="/volunteers/<%=@volunteer.username%>/edit">Edit your profile</a></p>
 <% end %>
