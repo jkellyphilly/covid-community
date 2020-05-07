@@ -2,6 +2,7 @@
 <h4>Username: <%=@member.username%></h4>
 
 <form action="/members/<%=@member.username%>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
   <label for="member[name]">Updated name: </label>
   <input type="text" name="member[name]" value="<%=@member.name%>"><br>
   <label for="member[username]">Updated username: </label>
