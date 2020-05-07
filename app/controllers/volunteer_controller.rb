@@ -93,13 +93,14 @@ class VolunteerController < ApplicationController
 
     if username_already_taken?(params[:volunteer][:username]) && session[:user_id] != Volunteer.find_by(username: params[:volunteer][:username]).id
       session[:message] = "Sorry, the username you entered is already taken. Please edit with a different username."
+      redirect "/volunteers/#{@volunteer.username}/edit"
     elsif @volunteer.update(params[:volunteer])
       session[:message] = "Successfully updated profile"
+      redirect "/volunteers/#{@volunteer.username}"
     else
       session[:message] = "Error: all fields must be filled out in order to update your profile. Please try again."
+      redirect "/volunteers/#{@volunteer.username}/edit"
     end
-
-    redirect "/volunteers/#{@volunteer.username}"
   end
 
   # --- HELPER METHODS --- #
