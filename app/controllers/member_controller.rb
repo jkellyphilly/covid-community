@@ -92,7 +92,8 @@ class MemberController < ApplicationController
       redirect "/members/#{@member.username}"
     else
       session[:message] = "Error: all non-optional fields must be filled out in order to edit. Please try again."
-      redirect "/members/#{@member.username}/edit"
+      binding.pry
+      redirect "/members/#{params[:username]}/edit"
     end
   end
 

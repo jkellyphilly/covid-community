@@ -99,7 +99,7 @@ class VolunteerController < ApplicationController
       redirect "/volunteers/#{@volunteer.username}"
     else
       session[:message] = "Error: all fields must be filled out in order to update your profile. Please try again."
-      redirect "/volunteers/#{@volunteer.username}/edit"
+      redirect "/volunteers/#{params[:username]}/edit"
     end
   end
 
