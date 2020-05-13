@@ -281,7 +281,6 @@ describe MemberController do
       expect(page.current_path).to eq("/members/test123/edit")
     end
 
-    # TODO: test for duplicate username
     it 'does not let a member edit their profile to an already-taken username' do
       member1 = Member.create(
         name: "Testy McTestFace",
