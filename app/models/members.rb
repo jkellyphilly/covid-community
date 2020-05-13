@@ -4,10 +4,7 @@ class Member < ActiveRecord::Base
   has_many :deliveries
   has_many :volunteers, through: :deliveries
 
-  validates :username, presence: true
-  validates :address, presence: true
-  validates :name, presence: true
-  validates :email, presence: true
+  validates :username, :address, :name, :email, presence: true
 
   def new_deliveries
     self.deliveries.select {|delivery| delivery.status == "new" && !delivery.volunteer}
