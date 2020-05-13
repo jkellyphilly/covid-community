@@ -4,9 +4,9 @@
 <form action="/members/<%=@member.username%>" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
   <label for="member[name]">Updated name: </label>
-  <input type="text" name="member[name]" value="<%=@member.name%>"><br>
+  <input type="text" id="member_name" name="member[name]" value="<%=@member.name%>"><br>
   <label for="member[username]">Updated username: </label>
-  <input type="text" name="member[username]" value="<%=@member.username%>"><br>
+  <input type="text" id="member_username" name="member[username]" value="<%=@member.username%>"><br>
   <label for="member[address]">Updated address: </label>
   <input type="text" name="member[address]" value="<%=@member.address%>"><br>
   <label for="member[email]">Updated email: </label>
