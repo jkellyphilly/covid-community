@@ -134,7 +134,7 @@ describe DeliveryController do
           allergies: "sesame",
           password: "McTestFace")
 
-        del = Delivery.create(items: "milk and cookies", date: "tomorrow", member_id: member.id)
+        del = Delivery.create(items: "milk and cookies", date: "tomorrow", status: "new", member_id: member.id)
 
         visit '/members/login'
         fill_in(:username, :with => "test123")
@@ -160,7 +160,7 @@ describe DeliveryController do
           allergies: "sesame",
           password: "McTestFace")
 
-        del = Delivery.create(items: "milk and cookies", date: "tomorrow", member_id: member.id)
+        del = Delivery.create(items: "milk and cookies", date: "tomorrow", status: "new", member_id: member.id)
         get "/deliveries/#{del.id}"
         expect(last_response.location).to include("/")
       end
@@ -244,49 +244,62 @@ describe DeliveryController do
   #     end
   #   end
   # end
-  #
-  # describe 'delete action' do
-  #   context "logged in" do
-  #     it 'lets a user delete their own tweet if they are logged in' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/login'
-  #
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit 'tweets/1'
-  #       click_button "Delete Tweet"
-  #       expect(page.status_code).to eq(200)
-  #       expect(Tweet.find_by(:content => "tweeting!")).to eq(nil)
-  #     end
-  #
-  #     it 'does not let a user delete a tweet they did not create' do
-  #       user1 = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet1 = Tweet.create(:content => "tweeting!", :user_id => user1.id)
-  #
-  #       user2 = User.create(:username => "silverstallion", :email => "silver@aol.com", :password => "horses")
-  #       tweet2 = Tweet.create(:content => "look at this tweet", :user_id => user2.id)
-  #
-  #       visit '/login'
-  #
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #       visit "tweets/#{tweet2.id}"
-  #       click_button "Delete Tweet"
-  #       expect(page.status_code).to eq(200)
-  #       expect(Tweet.find_by(:content => "look at this tweet")).to be_instance_of(Tweet)
-  #       expect(page.current_path).to include('/tweets')
-  #     end
-  #   end
-  #
-  #   context "logged out" do
-  #     it 'does not load let user delete a tweet if not logged in' do
-  #       tweet = Tweet.create(:content => "tweeting!", :user_id => 1)
-  #       visit '/tweets/1'
-  #       expect(page.current_path).to eq("/login")
-  #     end
-  #   end
-  # end
+
+  describe 'delete action' do
+
+    it 'lets a member delete their own delivery request if they are logged in' do
+      member = Member.create(
+        name: "Testy McTestFace",
+        username: "test123",
+        email: "test123@mailinator.com",
+        address: "Testing Address",
+        phone_number: "1234567890",
+        allergies: "sesame",
+        password: "McTestFace")
+
+      del = Delivery.create(items: "milk and cookies", date: "tomorrow", status: "new", member_id: member.id)
+      visit '/members/login'
+
+      fill_in(:username, :with => "test123")
+      fill_in(:password, :with => "McTestFace")
+      click_button 'Log In'
+      visit 'deliveries/1'
+      click_button "Delete this request"
+      expect(page.status_code).to eq(200)
+      expect(Delivery.find_by(:items => "milk and cookies", :date => "tomorrow")).to eq(nil)
+    end
+
+    it 'does not let a member delete a delivery request they did not create' do
+
+      member1 = Member.create(
+        name: "Testy McTestFace",
+        username: "test123",
+        email: "test123@mailinator.com",
+        address: "Testing Address",
+        phone_number: "1234567890",
+        allergies: "sesame",
+        password: "McTestFace")
+      del1 = Delivery.create(items: "milk and cookies", date: "tomorrow", status: "new", member_id: member1.id)
+
+
+      member2 = Member.create(
+        name: "Testy McTestFace2",
+        username: "test1234",
+        email: "test1234@mailinator.com",
+        address: "Testing2 Address",
+        phone_number: "1234567891",
+        allergies: "sesame",
+        password: "McTestFace")
+      del2 = Delivery.create(items: "tuna fish", date: "day after tomorrow", status: "new", member_id: member2.id)
+
+      visit '/members/login'
+
+      fill_in(:username, :with => "test123")
+      fill_in(:password, :with => "McTestFace")
+      click_button 'Log In'
+      visit "deliveries/#{del2.id}"
+      expect(page.body).not_to include("Delete this request")
+      expect(page.status_code).to eq(200)
+    end
+  end
 end
