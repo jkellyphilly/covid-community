@@ -120,37 +120,52 @@ describe DeliveryController do
       end
     end
   end
-  #
-  # describe 'show action' do
-  #   context 'logged in' do
-  #     it 'displays a single tweet' do
-  #
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "i am a boss at tweeting", :user_id => user.id)
-  #
-  #       visit '/login'
-  #
-  #       fill_in(:username, :with => "becky567")
-  #       fill_in(:password, :with => "kittens")
-  #       click_button 'submit'
-  #
-  #       visit "/tweets/#{tweet.id}"
-  #       expect(page.status_code).to eq(200)
-  #       expect(page.body).to include("Delete Tweet")
-  #       expect(page.body).to include(tweet.content)
-  #       expect(page.body).to include("Edit Tweet")
-  #     end
-  #   end
-  #
-  #   context 'logged out' do
-  #     it 'does not let a user view a tweet' do
-  #       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-  #       tweet = Tweet.create(:content => "i am a boss at tweeting", :user_id => user.id)
-  #       get "/tweets/#{tweet.id}"
-  #       expect(last_response.location).to include("/login")
-  #     end
-  #   end
-  # end
+
+  describe 'show action' do
+    context 'logged in' do
+      it 'displays a single delivery' do
+
+        member = Member.create(
+          name: "Testy McTestFace",
+          username: "test123",
+          email: "test123@mailinator.com",
+          address: "Testing Address",
+          phone_number: "1234567890",
+          allergies: "sesame",
+          password: "McTestFace")
+
+        del = Delivery.create(items: "milk and cookies", date: "tomorrow", member_id: member.id)
+
+        visit '/members/login'
+        fill_in(:username, :with => "test123")
+        fill_in(:password, :with => "McTestFace")
+        click_button 'Log In'
+
+        visit "/deliveries/#{del.id}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include("Delete this request")
+        expect(page.body).to include(del.items)
+        expect(page.body).to include("Edit your requested delivery")
+      end
+    end
+
+    context 'logged out' do
+      it 'does not let a user view a delivery' do
+        member = Member.create(
+          name: "Testy McTestFace",
+          username: "test123",
+          email: "test123@mailinator.com",
+          address: "Testing Address",
+          phone_number: "1234567890",
+          allergies: "sesame",
+          password: "McTestFace")
+
+        del = Delivery.create(items: "milk and cookies", date: "tomorrow", member_id: member.id)
+        get "/deliveries/#{del.id}"
+        expect(last_response.location).to include("/")
+      end
+    end
+  end
   #
   # describe 'edit action' do
   #   context "logged in" do
