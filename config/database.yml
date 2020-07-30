@@ -10,4 +10,7 @@ test:
   database: 'db/test.sqlite'
 
 production:
-  adapter: 'postgresql'
+  url: <%= ENV['DATABASE_URL'] %>
+  adapter: postgresql
+  database: mydb
+  host: localhost
