@@ -1,5 +1,5 @@
 require 'bundler/setup'
-Bundler.require_all
+Bundler.require
 
 configure :development do
   ENV['SINATRA_ENV'] ||= "development"
