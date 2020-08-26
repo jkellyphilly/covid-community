@@ -6,6 +6,8 @@ This simplistic CoVID Community application is designed for community members to
 
 In troubling times, the power of humanity is through COMMUNITY. Showing up for each other. This application is my attempt to foster that sense of community.
 
+View the live version of this app here: https://covid-community.herokuapp.com/
+
 ## Installation
 
 Fork and clone this repository down to your local environment, then run 'bundle install' to install all required gems from the Gemfile.
